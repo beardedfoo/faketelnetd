@@ -1,0 +1,40 @@
+default: faketelnetd
+
+faketelnetd: main.o TelnetServerSocket.o TelnetOptions.o TelnetCommands.o settings.o settingvalue.o logger.o libsocket++/libsocket++.a
+	g++ -g *.o -o faketelnetd -Llibsocket++/ -lsocket++ -lpthread
+
+libsocket++/libsocket++.a:
+	make -C libsocket++/
+
+main.o: main.cpp
+	g++ -g -c main.cpp
+	
+TelnetServerSocket.o: TelnetCommands.h TelnetOptions.h TelnetServerSocket.cpp
+	g++ -g -c TelnetServerSocket.cpp
+
+TelnetOptions.h: telnet_options.txt
+	make -C scripts ../TelnetOptions.h
+
+TelnetOptions.cpp: TelnetOptions.h telnet_options.txt
+	make -C scripts ../TelnetOptions.cpp
+
+TelnetOptions.o: TelnetOptions.cpp
+	g++ -g -c TelnetOptions.cpp 
+
+TelnetCommands.h: telnet_commands.txt
+	make -C scripts ../TelnetCommands.h
+
+TelnetCommands.cpp: TelnetCommands.h telnet_commands.txt
+	make -C scripts ../TelnetCommands.cpp
+
+TelnetCommands.o: TelnetCommands.cpp
+	g++ -g -c TelnetCommands.cpp
+
+logger.o: logger.cpp
+	g++ -g -c logger.cpp
+	
+settings.o: settings.cpp
+	g++ -g -c settings.cpp
+	
+settingvalue.o: settingvalue.cpp
+	g++ -g -c settingvalue.cpp

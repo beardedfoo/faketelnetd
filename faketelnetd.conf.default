@@ -1,0 +1,19 @@
+logfile=/var/log/faketelnetd.log
+debug=0
+listen=23
+fumsg=You've been caught
+valid_user=Administrator
+valid_pass=password
+max_login_attempts=4
+max_thread_count=100
+
+#Adding this option will cause the
+#  daemon to not fork()
+#interactive=1
+
+#The following arguments are commands to run on certain events
+## In these commands use %ip, %user, %pass, and %cmd as variables
+connect_exec=echo Received connection attempt from %ip >> /tmp/ids.txt
+login_exec=echo Successful login from %ip with %user:%pass >> /tmp/ids.txt
+login_fail_exec=echo Failed login from %ip with %user:%pass >> /tmp/ids.txt
+cmd_exec=echo Command ran from %ip with %user:%pass: %cmd >> /tmp/ids.txt

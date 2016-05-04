@@ -1,0 +1,19 @@
+#!/bin/bash
+
+(
+	echo "// AUTOMATICALLY GENERATED FILE"
+	echo "// SEE scripts/gen_TelnetCommands_h"
+	echo "#ifndef __TELNET_COMMANDS_H"
+	echo "#define __TELNET_COMMANDS_H"
+	echo "string telnetCommandAsStr( unsigned char c );"
+	echo ""
+	echo "enum TelnetComands{"
+	while read x; do
+		NAME=$(echo $x | cut -f1 -d',')
+		VALUE=$(echo $x | cut -f2 -d',')
+		echo "	TELNET_COMMAND_${NAME} = ${VALUE},"
+	done < ../telnet_commands.txt
+	echo "};"
+	echo "#endif"
+	echo ""
+) > ../TelnetCommands.h
